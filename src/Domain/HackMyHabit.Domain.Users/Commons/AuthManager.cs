@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using HackMyHabit.Domain.Users.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -8,7 +9,7 @@ namespace HackMyHabit.Domain.Users.Commons
 {
     public interface IAuthManager
     {
-        JsonWebToken CreateToken(Guid userId, string? role = null, string? audience = null, IDictionary<string, IEnumerable<string>>? claims = null);
+        JsonWebToken CreateToken(User user, string? role = null, string? audience = null, IDictionary<string, IEnumerable<string>>? claims = null);
     }
 
     public sealed class AuthManager : IAuthManager
@@ -32,14 +33,14 @@ namespace HackMyHabit.Domain.Users.Commons
             this.issuer = this.options.Issuer;
         }
 
-        public JsonWebToken CreateToken(Guid userId, string? role = null, string? audience = null,
+        public JsonWebToken CreateToken(User user, string? role = null, string? audience = null,
             IDictionary<string, IEnumerable<string>>? claims = null)
         {
             var now = DateTime.UtcNow;
             var jwtClaims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new(JwtRegisteredClaimNames.UniqueName, userId.ToString()),
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.UniqueName, user.Id.ToString()),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUnixTimeMilliseconds().ToString())
         };
@@ -79,8 +80,9 @@ namespace HackMyHabit.Domain.Users.Commons
             return new JsonWebToken
             {
                 AccessToken = token,
+                Email = user.Email,
                 Expiry = new DateTimeOffset(expires).ToUnixTimeMilliseconds(),
-                UserId = userId,
+                UserId = user.Id,
                 Role = role ?? string.Empty,
                 Claims = claims ?? EmptyClaims
             };

@@ -7,12 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="StackExchange.Redis" Version="2.6.104" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\HackMyHabit.Domain.Commons\HackMyHabit.Domain.Commons.csproj" />
+    <ProjectReference Include="..\Domain\HackMyHabit.Domain.Users\HackMyHabit.Domain.Users.csproj" />
   </ItemGroup>
 
 </Project>

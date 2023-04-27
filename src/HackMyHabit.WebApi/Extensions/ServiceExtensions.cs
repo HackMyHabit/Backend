@@ -1,4 +1,11 @@
-﻿using HackMyHabit.Domain.Users.Commons;
+﻿using HackMyHabit.Domain.Commons.Abstractions;
+using HackMyHabit.Domain.Users.Commons;
+using HackMyHabit.Domain.Users.Extensions;
+using HackMyHabit.Domain.Users.Repositories;
+using HackMyHabit.Infrastructure.Caching;
+using HackMyHabit.Infrastructure.Database.Repositories;
+using HackMyHabit.Infrastructure.Extensions;
+using HackMyHabit.WebApi.Auth;
 using HackMyHabit.WebApi.Commons;
 using HackMyHabit.WebApi.Consts;
 using MediatR;
@@ -7,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using System.Reflection;
 using System.Text;
 
@@ -111,9 +119,9 @@ namespace HackMyHabit.WebApi.Extensions
 
         public static IServiceCollection SetupModules(this IServiceCollection services, IConfiguration configuration)
         {
-            //services
-                //.AddSharedInsfrastructureServices(configuration)
-                //.AddUsersServices()
+            services
+                .AddSharedInsfrastructureServices(configuration)
+                .AddUsersServices();
 
             return services;
         }
