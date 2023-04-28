@@ -2,7 +2,7 @@
 
 namespace HackMyHabit.Domain.Tasks.Entities
 {
-    public class Task: BaseEntity
+    public class Task: Entity
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
@@ -22,12 +22,12 @@ namespace HackMyHabit.Domain.Tasks.Entities
             TaskListId = taskListId;
         }
 
-        public void MarkAsCompleted()
+        public void Done()
         {
             IsCompleted = true;
         }
 
-        public void MarkAsIncomplete()
+        public void Undone()
         {
             IsCompleted = false;
         }

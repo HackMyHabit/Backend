@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HackMyHabit.Domain.Tasks.Entities
 {
-    public class TaskList: BaseEntity, IAggregateRoot
+    public class TaskList: Entity, IAggregateRoot
     {
         public string Name { get; private set; }
         //TODO: to replace by User class as owner
@@ -50,21 +50,21 @@ namespace HackMyHabit.Domain.Tasks.Entities
             _tasks.RemoveWhere(x => x.Id == taskId);
         }
 
-        public void MarkTaskAsCompleted(Guid taskId) 
+        public void DoneTask(Guid taskId) 
         { 
-            _tasks.Where(x => x.Id == taskId).Single().MarkAsCompleted();
+            _tasks.Where(x => x.Id == taskId).Single().Done();
         }
 
-        public void MarkTaskAsIncompleted(Guid taskId)
+        public void UndoneTask(Guid taskId)
         {
-            _tasks.Where(x => x.Id == taskId).Single().MarkAsIncomplete();
+            _tasks.Where(x => x.Id == taskId).Single().Undone();
         }
 
-        public void MarkTasksCompleted(IEnumerable<Guid> taskIds)
+        public void DoneTasks(IEnumerable<Guid> taskIds)
         {
             foreach (var task in _tasks.Where(x => taskIds.Contains(x.Id))) 
             {
-                task.MarkAsCompleted();
+                task.Done();
             }
         }
     }

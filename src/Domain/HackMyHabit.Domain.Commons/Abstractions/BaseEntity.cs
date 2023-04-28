@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace HackMyHabit.Domain.Commons.Abstractions
 {
-    public abstract class BaseEntity
+    public abstract class Entity
     {
-        public virtual Guid Id { get; protected set; }
+        public Guid Id { get; protected set; }
     }
 }
